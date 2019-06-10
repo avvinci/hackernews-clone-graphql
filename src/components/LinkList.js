@@ -3,6 +3,7 @@ import Link  from "./Link"
 import {  Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import CreateLink from "./CreateLink";
+import {LINKS_PER_PAGE} from "../constant"
 
 
 const NEW_LINKS_SUBSCRIPTION = gql`
@@ -26,7 +27,7 @@ const NEW_LINKS_SUBSCRIPTION = gql`
   }
 `
 const NEW_VOTES_SUBSCRIPTION = gql`
-  subscrition {
+  subscription {
     newVote {
       id
       link {
@@ -53,8 +54,8 @@ const NEW_VOTES_SUBSCRIPTION = gql`
 `
 
 export const FEED_QUERY = gql`
-  {
-    feed {
+  query FeedQuery($first:Int , $skip:Int , $orderBy: LinkOrderByInput ){
+    feed(first : $first, skip:$skip, orderBy: $orderBy ) {
       links {
         id
         createdAt
@@ -71,11 +72,22 @@ export const FEED_QUERY = gql`
           }
         }
       }
+      count
     }
   }
 `
 
 class LinkList extends Component {
+
+    _getQueryVariables = () => {
+        const isNewPage  = this.props.location.pathname.includes('new')
+        const page = parseInt(this.props.match.params.page,10)
+
+        const skip = isNewPage ?  (page-1) * LINKS_PER_PAGE : 0
+        const first = isNewPage ?  LINKS_PER_PAGE : 100
+        const orderBy = isNewPage ?  'createdAt_DESC' : null
+        return {first, skip, orderBy} 
+    }
 
     _updateCacheAfterVote = (store, createVote , linkId) => {
       const data = store.readQuery({query: FEED_QUERY})
@@ -112,7 +124,7 @@ class LinkList extends Component {
 
     render(){ 
           return(
-              <Query query = { FEED_QUERY }>
+              <Query query = { FEED_QUERY } variables = {this._getQueryVariables() } >
                 {( {loading, error, data ,subscribeToMore }) => {
                   if(loading) return <div>Fetching</div>
                   if(error) return <div> Error</div>
