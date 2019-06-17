@@ -1,6 +1,6 @@
 import React, { Component , Fragment } from "react"
 import Link  from "./Link"
-import {  Query } from 'react-apollo'
+import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import CreateLink from "./CreateLink";
 import {LINKS_PER_PAGE} from "../constant"
