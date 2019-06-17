@@ -1,3 +1,12 @@
+const { APP_SECRET, getUserId } = require('../utils')
+
+async function user(parent,args,context){
+  const userId = getUserId(context)
+  return context.prisma.user({
+    id: userId,
+  })
+}
+
 async function feed(parent, args, context) {
   const count = await context.prisma
     .linksConnection({
@@ -29,4 +38,5 @@ async function feed(parent, args, context) {
 
 module.exports = {
   feed,
+  user,
 }
