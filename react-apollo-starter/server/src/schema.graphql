@@ -4,7 +4,8 @@ type Query {
   info: String!
   feed(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): Feed!
   user: User
-  linksByUser(userId: ID!): Feed!
+  linksByUser: [Link]
+  upvotedLinksByUser: [Vote]
 }
 
 enum LinkOrderByInput {

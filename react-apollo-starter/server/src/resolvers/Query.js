@@ -1,10 +1,24 @@
-const { APP_SECRET, getUserId } = require('../utils')
+const { getUserId } = require('../utils')
 
 async function user(parent,args,context){
   const userId = getUserId(context)
   return context.prisma.user({
     id: userId,
   })
+}
+
+async function linksByUser(parent,args,context){
+  const userId = getUserId(context)
+  return context.prisma.user({
+    id: userId,
+  }).links()
+}
+
+async function upvotedLinksByUser(parent,args,context){
+  const userId = getUserId(context)
+  return context.prisma.user({
+    id: userId,
+  }).votes()
 }
 
 async function feed(parent, args, context) {
@@ -39,4 +53,6 @@ async function feed(parent, args, context) {
 module.exports = {
   feed,
   user,
+  linksByUser,
+  upvotedLinksByUser,
 }
