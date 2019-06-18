@@ -5,6 +5,7 @@ type Link {
   url: String!
   postedBy: User
   votes: [Vote!]!
+  comments: [Comment!]!
 }
 
 type Comment{
@@ -12,6 +13,7 @@ type Comment{
   createdAt: DateTime! @createdAt
   text: String!
   postedBy: User
+  link: Link
 }
 
 
