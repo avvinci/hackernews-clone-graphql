@@ -2,7 +2,6 @@ import React, { Component , Fragment } from "react"
 import Link  from "./Link"
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
-import CreateLink from "./CreateLink";
 import {LINKS_PER_PAGE} from "../constant"
 
 
@@ -54,8 +53,8 @@ const NEW_VOTES_SUBSCRIPTION = gql`
 `
 
 export const FEED_QUERY = gql`
-  query FeedQuery($first:Int , $skip:Int , $orderBy: LinkOrderByInput ){
-    feed(first : $first, skip:$skip, orderBy: $orderBy ) {
+  query FeedQuery($first: Int, $skip:Int, $orderBy: LinkOrderByInput ){
+    feed(first : $first, skip: $skip, orderBy: $orderBy ) {
       links {
         id
         createdAt

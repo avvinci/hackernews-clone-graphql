@@ -4,6 +4,7 @@ import CreateLink from './CreateLink'
 import Login from './Login'
 import Header from './Header'
 import Profile from './Profile'
+import Discuss from './Discuss'
 import {Switch , Route, Redirect} from 'react-router-dom'
 import Search from './Search';
 
@@ -20,6 +21,7 @@ class App extends Component {
               <Route exact path= "/create" component = {CreateLink} /> 
               <Route exact path= "/top" component = {LinkList} /> 
               <Route exact path= "/new/:page" component = {LinkList} /> 
+              <Route exact path= "/discuss/:id" component = {Discuss} /> 
               <Route exact path= "/login" component = {Login} /> 
               <Route exact path = "/search" component = {Search} />
               <Route exact path = "/profile" component = {Profile} />

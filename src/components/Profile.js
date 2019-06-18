@@ -41,7 +41,7 @@ class Profile extends Component {
             <Fragment> 
                 <Query query = { USER_QUERY }  >
                     {( {loading, error, data  }) => {
-                        if(loading) return <div>Fetching</div>
+                        if(loading) return <div>Getting data...</div>
                         if(error) return <div> Error</div>
                         global_user = data.user.name 
                         return(
@@ -63,7 +63,7 @@ class Profile extends Component {
               
                 <Query query = {LINKS_BY_USER} >
                     {({loading,error,data}) => {
-                        if(loading) return <div>Fetching</div>
+                        if(loading) return <div>Getting data...</div>
                         if(error) return <div> Error</div>
                         return(
                             <div>
@@ -87,7 +87,7 @@ class Profile extends Component {
 
                 <Query query = {UPVOTED_LINKS_BY_USER} >
                     {({loading,error,data}) => {
-                        if(loading) return <div>Fetching</div>
+                        if(loading) return <div>Getting data...</div>
                         if(error) return <div> Error</div>
                         return(
                             <div>
