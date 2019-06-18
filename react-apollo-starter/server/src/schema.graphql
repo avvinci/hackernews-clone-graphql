@@ -33,7 +33,7 @@ type Mutation {
 
 type Comment { 
   id : ID!
-  writtenBy: User!
+  postedBy: User!
   text: String!
   link: Link!
 }
