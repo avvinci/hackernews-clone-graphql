@@ -16,79 +16,99 @@ export const LINKS_BY_USER = gql`
   query LinksByUser{
       linksByUser{
         id
-        createdAt
         url
         description
-        postedBy {
-          id
-          name
-        }
-        votes {
-          id
-          user {
-            id
-          }
-        }
     }
+  }
+`
+export const UPVOTED_LINKS_BY_USER = gql`
+  query UpvotedLinksByUser{
+	upvotedLinksByUser{
+        id
+        link{
+          description
+          url
+        }
+      }
   }
 `
 
 class Profile extends Component {
     render(){
         const auth_token = localStorage.getItem(AUTH_TOKEN)
+        let global_user = ""
         return(
-            <Fragment>
-        
+            <Fragment> 
                 <Query query = { USER_QUERY }  >
-                {( {loading, error, data  }) => {
-                    if(loading) return <div>Fetching</div>
-                    if(error) return <div> Error</div>
-                    return(
-                    <Fragment>
-                        <div className = "flex mt2 items-start">
-
-                            <div className = "flex items-center">
-                                { auth_token && ( <div>
-                                    { 'Welcome!! '}
-                                    {data.user.name}
-                                    <br />                                    
-                                    {' email - '} {data.user.email}
+                    {( {loading, error, data  }) => {
+                        if(loading) return <div>Fetching</div>
+                        if(error) return <div> Error</div>
+                        global_user = data.user.name 
+                        return(
+                            <Fragment>
+                                <div className = "flex mt2 items-start">
+                                    <div className = "flex items-center">
+                                        { auth_token && ( <div>
+                                            { 'Welcome!! ' + global_user}
+                                            <br />                                    
+                                            {' Email - ' + data.user.email}
+                                            </div>)}
                                     </div>
-                                ) }
-                            </div>
-                          
-                            <p > 
-                            <br />
-                            <br />  
-                            Posts by {data.user.name}</p> 
-                            <hr />
-                        </div>
-                    </Fragment>
-                    )
-                }}
+                                </div>
+
+                            </Fragment>
+                        )
+                    }}
                 </Query>
               
-
                 <Query query = {LINKS_BY_USER} >
                     {({loading,error,data}) => {
-                            if(loading) return <div>Fetching</div>
-                            if(error) return <div> Error</div>
-                            return(
-                                <div>
-                                    {data.linksByUser.map( (link ,index ) => (
-                                     <div className = "flex mt2 items-start">
+                        if(loading) return <div>Fetching</div>
+                        if(error) return <div> Error</div>
+                        return(
+                            <div>
+                                <br />  
+                                <p >Posts by {global_user}</p> 
+                                <hr />
+                                {data.linksByUser.map( (link ,index ) => (
+                                    <div className = "flex mt2 items-start">
                                         <div className = "flex items-center">
                                             <span className ="gray">  {index + 1}.</span>
                                         </div>
                                         <div className ="ml1">
                                                 {link.description} ({link.url})
                                         </div>
-                                     </div>
-                                    ))}
-                                </div>
-                            )
-                   }}
+                                    </div>
+                                ))}
+                            </div>
+                        )
+                    }}
                 </Query>
+
+                <Query query = {UPVOTED_LINKS_BY_USER} >
+                    {({loading,error,data}) => {
+                        if(loading) return <div>Fetching</div>
+                        if(error) return <div> Error</div>
+                        return(
+                            <div>
+                                <br /> 
+                                <p >Upvotes by {global_user}</p>
+                                <hr /> 
+                                {data.upvotedLinksByUser.map( (vote ,index ) => (
+                                    <div className = "flex mt2 items-start">
+                                        <div className = "flex items-center">
+                                            <span className ="gray">  {index + 1}.</span>
+                                        </div>
+                                        <div className ="ml1">
+                                                {vote.link.description} ({vote.link.url})
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )
+                    }}
+                </Query>
+
             </Fragment>
         )
     }
