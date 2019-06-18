@@ -17,6 +17,7 @@ enum LinkOrderByInput {
   createdAt_DESC
 }
 
+
 type Feed {
   links: [Link!]!
   count: Int!
@@ -27,6 +28,14 @@ type Mutation {
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
   vote(linkId: ID!): Vote!
+  comment(text: String!, linkId : ID!  ): Comment!
+}
+
+type Comment { 
+  id : ID!
+  writtenBy: User!
+  text: String!
+  link: Link!
 }
 
 type Subscription {
@@ -44,6 +53,7 @@ type User {
   name: String!
   email: String!
   links: [Link!]!
+  comments: [Comment!]!
 }
 
 type Link {
@@ -53,6 +63,7 @@ type Link {
   url: String!
   postedBy: User
   votes: [Vote!]!
+  comments: [Comment!]!
 }
 
 type Vote {
