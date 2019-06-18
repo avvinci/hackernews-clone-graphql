@@ -11,6 +11,16 @@ function post(parent, args, context) {
   })
 }
 
+function comment(parent, args, context){
+  const userId = getUserId(context)
+  return context.prisma.createComment({
+    text: args.text,
+    postedBy: { connect: { id: userId}},
+    link : {connect : {id : args.linkId}}
+  })
+
+}
+
 async function signup(parent, args, context) {
   const password = await bcrypt.hash(args.password, 10)
   const user = await context.prisma.createUser({ ...args, password })
@@ -61,4 +71,5 @@ module.exports = {
   signup,
   login,
   vote,
+  comment,
 }
