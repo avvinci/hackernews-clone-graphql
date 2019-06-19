@@ -33,6 +33,19 @@ export const UPVOTED_LINKS_BY_USER = gql`
   }
 `
 
+export const COMMENTS_BY_USER = gql`
+  query CommentsByUser{
+    commentsByUser {
+        link{
+            description
+            url
+        }
+        text    
+    }
+  }
+`
+
+
 class Profile extends Component {
     render(){
         const auth_token = localStorage.getItem(AUTH_TOKEN)
@@ -101,6 +114,39 @@ class Profile extends Component {
                                         </div>
                                         <div className ="ml1">
                                                 {vote.link.description} ({vote.link.url})
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )
+                    }}
+                </Query>
+
+                <Query query = {COMMENTS_BY_USER}  >
+                    {({loading,error,data}) => {
+                        if(loading) return <div>Getting data...</div>
+                        if(error) return <div> Error</div>
+                        return(
+                            <div>
+                                <br /> 
+                                <p >Comments by {global_user}</p>
+                                <hr /> 
+                                {data.commentsByUser.map( (comment ,index ) => (
+                                    <div>
+                                        <div className = "flex mt2 items-start">
+                                            <div className = "flex items-center">
+                                                <span className ="gray">  {index + 1}.</span>
+                                            </div>
+                                            <div className ="ml1">
+                                                    {comment.link.description} ({comment.link.url})
+                                            </div>
+
+                                        </div>
+                                        <div className = "flex mt2 items-start">
+                                            <div className ="ml1">
+                                                   {'- '} {comment.text}
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                 ))}

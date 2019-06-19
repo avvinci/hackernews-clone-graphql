@@ -7,7 +7,7 @@ type Query {
   linksByUser: [Link]
   upvotedLinksByUser: [Vote]
   commentsOnLink(linkId : ID! ): [Comment!]!
-  commentsByUser(userId : ID! ): [Comment!]!
+  commentsByUser: [Comment!]!
 }
 
 enum LinkOrderByInput {
