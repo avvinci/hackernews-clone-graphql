@@ -1,5 +1,5 @@
 import React, { Component , Fragment } from "react"
-import Link  from "./Link"
+import MyLink  from "./MyLink"
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import {LINKS_PER_PAGE} from "../constant"
@@ -58,7 +58,7 @@ class LinkList extends Component {
                         {pageIndex} 
                         <br />
                     {linksToRender.map( (link, index) => (
-                    < Link 
+                    < MyLink 
                         key ={link.id} 
                         link = {link} 
                         index ={index + pageIndex} 

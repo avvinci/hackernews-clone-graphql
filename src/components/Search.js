@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { withApollo } from "react-apollo"
-import  Link  from "./Link"
+import  MyLink  from "./MyLink"
 import gql from 'graphql-tag'
 
 const FEED_SEARCH_QUERY =  gql`
@@ -42,7 +42,7 @@ class Search extends Component{
                     <button onClick = {() => this._executeSearch()}>search</button>
                 </div>
                 {this.state.links.map((link,index) => (
-                        <Link key={link.id}  link={link} index = {index} /> 
+                        <MyLink key={link.id}  link={link} index = {index} /> 
                     ))}
             </div>
         )

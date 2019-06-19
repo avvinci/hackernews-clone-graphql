@@ -3,6 +3,8 @@ import { AUTH_TOKEN } from '../constant';
 import { timeDifferenceForDate } from '../utils';
 import {Mutation} from 'react-apollo'
 import gql from "graphql-tag";
+import {Link} from 'react-router-dom'
+
 
 
 const VOTE_MUTATION = gql`
@@ -24,9 +26,10 @@ const VOTE_MUTATION = gql`
     }
 `
 
-class Link extends Component {
+class MyLink extends Component {
     render(){
         const auth_token = localStorage.getItem(AUTH_TOKEN)
+        let discussLink = `/discuss/${this.props.index+1}`
         return (
             <div className = "flex mt2 items-start">
 
@@ -55,7 +58,10 @@ class Link extends Component {
                         {this.props.postedBy ? this.props.postedBy.name : 'Unknown'}
                         {' '}
                         {timeDifferenceForDate(this.props.link.createdAt)}
+                        {' '} | {' '}
+                        <Link to = {discussLink} className = "ml1 no-underline gray" > discuss </Link>
                     </div>
+                    
                 </div>
 
             </div>
@@ -63,4 +69,4 @@ class Link extends Component {
     }
 }
 
-export default Link
+export default MyLink
