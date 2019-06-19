@@ -14,6 +14,21 @@ async function linksByUser(parent,args,context){
   }).links()
 }
 
+async function commentsOnLink(parent , args, context) {
+    return context.prisma.link({
+      id: args.linkId,
+    }).comments()
+}
+
+
+
+async function commentsByUser(parent,args,context){
+  const userId = getUserId(context)
+  return context.prisma.user({
+    id: userId,
+  }).comments()
+}
+
 async function upvotedLinksByUser(parent,args,context){
   const userId = getUserId(context)
   return context.prisma.user({
@@ -55,4 +70,6 @@ module.exports = {
   user,
   linksByUser,
   upvotedLinksByUser,
+  commentsByUser,
+  commentsOnLink,
 }
