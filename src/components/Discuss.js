@@ -1,85 +1,87 @@
 import React, { Component , Fragment } from "react"
-import MyLink  from "./MyLink"
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
-import {LINKS_PER_PAGE} from "../constant"
+import { Mutation } from 'react-apollo';
 
-export const FEED_QUERY = gql`
-  query FeedQuery($first: Int, $skip:Int, $orderBy: LinkOrderByInput ){
-    feed(first : $first, skip: $skip, orderBy: $orderBy ) {
-      links {
-        id
-        createdAt
-        url
-        description
-        postedBy {
-          id
-          name
-        }
-        votes {
-          id
-          user {
-            id
-          }
-        }
-      }
-      count
+
+const COMMENTS_ON_LINK = gql`
+  query CommentsonLink($linkId: String ){
+    commentsOnLink(linkId : $linkId ) {
+      text
     }
   }
 `
 
-class LinkList extends Component {
-
-    _getQueryVariables = () => {
-        const isNewPage  = this.props.location.pathname.includes('new')
-        const page = parseInt(this.props.match.params.page,10)
-
-        const skip = isNewPage ?  (page-1) * LINKS_PER_PAGE : 0
-        const first = isNewPage ?  LINKS_PER_PAGE : 100
-        const orderBy = isNewPage ?  'createdAt_DESC' : null
-        return {first, skip, orderBy} 
+const  COMMENT_MUTATION = gql`
+mutation CommentMutation($text: String!, $linkId: String!) {
+        comment(text :$text , linkId: $linkId){
+          postedBy{
+            name
+          }
+          link{
+            description
+          }      
+        }   
     }
+`
 
+class Discuss extends Component {
+  state = {
+    linkId: '',
+    text : '',
+  }
+    componentDidMount(){
+      const { linkId }  = this.props.location.state 
+      this.setState({linkId : linkId })
 
+    }
 
     render(){ 
-          return(
-              <Query query = { FEED_QUERY } variables = {this._getQueryVariables() } >
-                {( {loading, error, data  }) => {
-                  if(loading) return <div>Fetching</div>
-                  if(error) return <div> Error</div>
-                  
-                  const linksToRender = data.feed.links
-                  const pageIndex = this.props.match.params.id 
+      const {text , linkId }=  this.state 
+      console.log(linkId)
 
-                  return(
-                    <Fragment>
-                        Discussion on Post : 
-                        {pageIndex} 
-                        <br />
-                    {linksToRender.map( (link, index) => (
-                    < MyLink 
-                        key ={link.id} 
-                        link = {link} 
-                        index ={index + pageIndex} 
-                        />
-                        ))}
-                    
-                    <form class="pa4 black-80">
-                        <div>
-                            <label for="comment" class="f6 b db mb2">Add Comments <span class="normal black-60">(optional)</span></label>
-                            <textarea id="comment" name="comment" class="db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2" aria-describedby="comment-desc"></textarea>
-                        </div>
-                    </form>
-                    </Fragment>
-                  )
-                }}
-              </Query>
+      return(
+        <Fragment> 
+
+          {/* <Query query = { COMMENTS_ON_LINK }  variables = { {linkId} }  >
+            {( {loading, error, data  }) => {
+              if(loading) return <div>Fetching</div>
+              if(error) return <div>   {`Error!:   ${error}`} </div>
+              // const pageIndex = this.props.match.params.id 
+
+              return(
+                <Fragment>
+                    Discussion on Post : {this.state.myLink}  {' '} 
+                    <br />
+                   
+                </Fragment>
+              )
+            }}
+          </Query>
+           */}
+          <div className="flex mt3">
+                      <form class="pa4 black-80">
+                          <div>
+                              <label for="comment" class="f6 b db mb2">Add Comments <span class="normal black-60">(optional)</span></label>
+                              <textarea id="comment" name="comment" 
+                               onChange = { e => this.setState({text: e.target.value})}
+                              class="db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2" aria-describedby="comment-desc"></textarea>
+                          </div>
+                      </form>
+                    <Mutation
+                        mutation = {COMMENT_MUTATION} 
+                        variables = { {text, linkId }}
+                        >
+                                        
+                    { postMutation =>  < button onClick = {postMutation} >Submit</button> }
+
+                    </Mutation>
+
+                </div>
+        </Fragment>
        
-          )
+      )
     }
-
-    
 }
 
-export default LinkList ; 
+export default Discuss 

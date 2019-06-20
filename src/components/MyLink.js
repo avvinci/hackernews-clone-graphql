@@ -1,10 +1,9 @@
 import React , { Component } from 'react'
 import { AUTH_TOKEN } from '../constant';
 import { timeDifferenceForDate } from '../utils';
-import {Mutation} from 'react-apollo'
+import { Mutation } from 'react-apollo'
 import gql from "graphql-tag";
-import {Link} from 'react-router-dom'
-
+import { Link } from 'react-router-dom'
 
 
 const VOTE_MUTATION = gql`
@@ -59,7 +58,12 @@ class MyLink extends Component {
                         {' '}
                         {timeDifferenceForDate(this.props.link.createdAt)}
                         {' '} | {' '}
-                        <Link to = {discussLink} className = "ml1 no-underline gray" > discuss </Link>
+                        <Link to = {{
+                            pathname:  discussLink ,
+                            state : {
+                                linkId: this.props.link.id,
+                            }
+                            }} className = "ml1 no-underline gray" > discuss </Link>
                     </div>
                     
                 </div>
