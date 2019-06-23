@@ -17,6 +17,9 @@
 1. Fix Link Click
 2. Find Why data fetch is too slow
 3. Deploy
+4. add comment reply feature
+5. Improve profile page
+6. Improve comments by user
 9999. Everything!
 
 
