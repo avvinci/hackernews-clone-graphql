@@ -17,7 +17,7 @@ mutation CommentMutation($text: String!, $linkId: String!) {
 `
 
 const COMMENTS_ON_LINK = gql`
-  query CommentsonLink($linkId: String ){
+  query CommentsonLink($linkId: String! ){
     commentsOnLink(linkId : $linkId ) {
       text
     }
@@ -37,6 +37,7 @@ const COMMENTS = gql`
 class Discuss extends Component {
   state = {
     linkId: '',
+    text : '',
   }
 
   componentDidMount(){
@@ -45,6 +46,11 @@ class Discuss extends Component {
 
     }
 
+    _getQueryVariables = () => {
+      const linkId = this.state.linkId
+      return {linkId}
+
+  }
     render(){ 
       const {text, linkId } =  this.state 
       console.log(linkId)
@@ -73,7 +79,7 @@ class Discuss extends Component {
           </Query>
 
 
-          <Query query = { COMMENTS_ON_LINK } variables = { {linkId :  this.state.linkId } }>
+          <Query query = { COMMENTS_ON_LINK } variables = {this._getQueryVariables() } >
             {( {loading, error, data  }) => {
               if(loading) return <div>Fetching</div>
               if(error) return <div>   {`Error!:   ${error}`} </div>
@@ -81,8 +87,8 @@ class Discuss extends Component {
 
               return(
                 <Fragment>
-                    Comments : <br />
-                    {data.comments.map(comment => (
+                    Comments : <br /> 
+                    {data.commentsOnLink.map(comment => (
                       <div> {comment.text} - {comment.postedBy.name} </div>
                     ))}
                     Discussion on Post : {this.state.linkId}  {' '} 
