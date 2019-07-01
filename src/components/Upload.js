@@ -1,5 +1,5 @@
 import React from 'react';
-import Dropzone from 'react-dropzone';
+// // import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import { gql, graphql } from 'react-apollo';
 
@@ -9,60 +9,60 @@ class Upload extends React.Component {
     file: null,
   };
 
-  onDrop = async files => {
-    this.setState({ file: files[0] });
-  };
+//   onDrop = async files => {
+//     this.setState({ file: files[0] });
+//   };
 
-  onChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
+//   onChange = e => {
+//     this.setState({
+//       [e.target.name]: e.target.value,
+//     });
+//   };
 
-  submit = async () => {
-    const { name, file } = this.state;
+//   submit = async () => {
+//     const { name, file } = this.state;
 
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET);
+//     const formData = new FormData();
+//     formData.append('file', file);
+//     formData.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET);
 
-    const response = await axios.post(
-      `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload`,
-      formData,
-    );
+//     const response = await axios.post(
+//       `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload`,
+//       formData,
+//     );
 
-    console.log(' upload successful :) ')
-    // const graphqlResponse = await this.props.mutate({
-    //   variables: {
-    //     name,
-    //     publicId: response.data.public_id,
-    //   },
-    // });
+//     console.log(' upload successful :) ')
+//     // const graphqlResponse = await this.props.mutate({
+//     //   variables: {
+//     //     name,
+//     //     publicId: response.data.public_id,
+//     //   },
+//     // });
 
-    // this.props.history.push(`/champion/${graphqlResponse.data.createChampion.id}`);
-  };
+//     // this.props.history.push(`/champion/${graphqlResponse.data.createChampion.id}`);
+//   };
 
   render() {
     return (
       <div>
-        <input name="name" onChange={this.onChange} value={this.state.name} />
-        <Dropzone onDrop={this.onDrop}>
-          <p>Try dropping some files here, or click to select files to upload.</p>
-        </Dropzone>
-        <button onClick={this.submit}>Submit</button>
+           <input name="name" onChange={this.onChange} value={this.state.name} />
+{/* // //         <Dropzone onDrop={this.onDrop}>
+// //           <p>Try dropping some files here, or click to select files to upload.</p>
+// //         </Dropzone> */}
+         <button onClick={this.submit}>Upload</button>
       </div>
     );
   }
 }
 
-// const CreateChampionMutation = gql`
-//   mutation($name: String!, $publicId: String!) {
-//     createChampion(name: $name, publicId: $publicId) {
-//       id
-//     }
-//   }
-// `;
+// // const CreateChampionMutation = gql`
+// //   mutation($name: String!, $publicId: String!) {
+// //     createChampion(name: $name, publicId: $publicId) {
+// //       id
+// //     }
+// //   }
+// // `;
 
-// export default graphql(CreateChampionMutation)(Upload);
+// // export default graphql(CreateChampionMutation)(Upload);
 
 export default Upload
