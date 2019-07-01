@@ -7,6 +7,7 @@ import Profile from './Profile'
 import Discuss from './Discuss'
 import {Switch , Route, Redirect} from 'react-router-dom'
 import Search from './Search';
+import Upload from './Upload';
 
 class App extends Component {
   render(){
@@ -25,6 +26,7 @@ class App extends Component {
               <Route exact path= "/login" component = {Login} /> 
               <Route exact path = "/search" component = {Search} />
               <Route exact path = "/profile" component = {Profile} />
+              <Route exact path = "/upload" component = {Upload} />
 
             </Switch>
           </div>

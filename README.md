@@ -5,8 +5,9 @@
 2. Apollo Client
 
 ### Done
-1. Implemented Tutorial Barebones
+1. Implemented Tutorial fully
 2. Added Profile Page
+3. Added Discuss Section
 
 ### Doing
 1. Adding comments section frontend
@@ -20,6 +21,8 @@
 4. add comment reply feature
 5. Improve profile page
 6. Improve comments by user
+7. store images in backend (profile pic)
+8. Fix comment post issue
 9999. Everything!
 
 
