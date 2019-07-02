@@ -13,7 +13,6 @@ class Upload extends React.Component {
       file: null,
       fileInfo: null,
     };
-    // this._onButtonClick = this._onButtonClick.bind(this);
   }
 
   onChange = e => {
@@ -27,13 +26,11 @@ class Upload extends React.Component {
     const { name, file } = this.state;
 
     const formData = new FormData();
-    const cloud = process.env.CLOUD_NAME
     formData.append('file', file);
-    // process.env.REACT_APP_UPLOAD_PRESET
-    formData.append('upload_preset', '');
+    // formData.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET);
 
     const response = await axios.post(
-      `https://api.cloudinary.com/v1_1//image/upload`,
+      // `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload`,
       formData,
     );
     this.setState({showComponent:true})
@@ -58,11 +55,9 @@ class Upload extends React.Component {
       <div>
         
         <h4> Upload your profile picture </h4>
-          <input type='file' id='single' onChange={this.onChange} /> 
-          <button onClick={this.submit}>Submit</button>
+          <input class="btn btn-light btn-block" type='file' id='single' onChange={this.onChange} /> 
           <div >
-            <img  style = {{ height:`245px`,  alignContent : 'center',
-              border: `1px solid #000`, margin: `10px 5px 0 0`, position: `relative`}}
+            <img   class="img-thumbnail mx-auto" style = {{ width: "300px" ,margin:'10px' }} 
               src = {this.state.file ? this.state.fileInfo : ''}
               />
           </div>
@@ -73,6 +68,8 @@ class Upload extends React.Component {
             </div> :
            null
         }
+          <button class="btn btn-dark" onClick={this.submit}>Upload</button>
+
 
  
    
