@@ -5,17 +5,21 @@ import { gql, graphql } from 'react-apollo';
 
 class Upload extends React.Component {
   
-  state = {
-    name: '',
-    file: null,
-    fileInfo: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      showComponent: false,
+      name: '',
+      file: null,
+      fileInfo: null,
+    };
+    // this._onButtonClick = this._onButtonClick.bind(this);
+  }
 
   onChange = e => {
     let f = e.target.files[0] 
     this.setState({file: e.target.files[0] }) 
     this.setState( { fileInfo: URL.createObjectURL(e.target.files[0]) })
-
   }
 
 
@@ -25,13 +29,16 @@ class Upload extends React.Component {
     const formData = new FormData();
     const cloud = process.env.CLOUD_NAME
     formData.append('file', file);
-    formData.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET);
+    // process.env.REACT_APP_UPLOAD_PRESET
+    formData.append('upload_preset', '');
 
     const response = await axios.post(
-      `https://api.cloudinary.com/v1_1/${cloud}/image/upload`,
+      `https://api.cloudinary.com/v1_1//image/upload`,
       formData,
     );
-
+    this.setState({showComponent:true})
+ 
+   
     console.log(' upload successful :) ')
     // const graphqlResponse = await this.props.mutate({
     //   variables: {
@@ -59,6 +66,13 @@ class Upload extends React.Component {
               src = {this.state.file ? this.state.fileInfo : ''}
               />
           </div>
+
+          {this.state.showComponent ?
+            <div class="alert alert-primary" role="alert">
+                upload successful :)
+            </div> :
+           null
+        }
 
  
    
