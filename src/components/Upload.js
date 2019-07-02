@@ -11,24 +11,10 @@ class Upload extends React.Component {
     fileInfo: null,
   };
 
-  // onDrop = async files => {
-  //   this.setState({ file: files[0] });
-  // };
-
   onChange = e => {
     let f = e.target.files[0] 
     this.setState({file: e.target.files[0] }) 
-    console.log(f)
-      // Closure to capture the file information.
-      var reader = new FileReader();
-      reader.onload = (function(theFile) {
-        return function(evt) {
-          // Render thumbnail
-          console.log(evt.target.result)
-
-          this.setState({ fileInfo : evt.target.result })  
-        };
-      })(f);
+    this.setState( { fileInfo: URL.createObjectURL(e.target.files[0]) })
 
   }
 
@@ -67,12 +53,12 @@ class Upload extends React.Component {
         <h4> Upload your profile picture </h4>
           <input type='file' id='single' onChange={this.onChange} /> 
           <button onClick={this.submit}>Submit</button>
-          <span>
-            <img  style = {{ height:`145px`, 
+          <div >
+            <img  style = {{ height:`245px`,  alignContent : 'center',
               border: `1px solid #000`, margin: `10px 5px 0 0`, position: `relative`}}
               src = {this.state.file ? this.state.fileInfo : ''}
               />
-          </span>
+          </div>
 
  
    
