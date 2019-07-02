@@ -8,6 +8,7 @@ class Upload extends React.Component {
   state = {
     name: '',
     file: null,
+    fileInfo: null,
   };
 
   // onDrop = async files => {
@@ -15,7 +16,20 @@ class Upload extends React.Component {
   // };
 
   onChange = e => {
+    let f = e.target.files[0] 
     this.setState({file: e.target.files[0] }) 
+    console.log(f)
+      // Closure to capture the file information.
+      var reader = new FileReader();
+      reader.onload = (function(theFile) {
+        return function(evt) {
+          // Render thumbnail
+          console.log(evt.target.result)
+
+          this.setState({ fileInfo : evt.target.result })  
+        };
+      })(f);
+
   }
 
 
@@ -46,10 +60,23 @@ class Upload extends React.Component {
 
 
   render() {
+    var span = document.createElement('span');
     return (
       <div>
+        
+        <h4> Upload your profile picture </h4>
           <input type='file' id='single' onChange={this.onChange} /> 
           <button onClick={this.submit}>Submit</button>
+          <span>
+            <img  style = {{ height:`145px`, 
+              border: `1px solid #000`, margin: `10px 5px 0 0`, position: `relative`}}
+              src = {this.state.file ? this.state.fileInfo : ''}
+              />
+          </span>
+
+ 
+   
+
 
       </div>
     );
