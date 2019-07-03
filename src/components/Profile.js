@@ -2,7 +2,8 @@ import React, { Component , Fragment } from 'react'
 import { Query } from 'react-apollo'
 import { AUTH_TOKEN } from '../constant';
 import gql from "graphql-tag";
-
+import {Link} from 'react-router-dom'
+import Upload from './Upload';
 
 export const USER_QUERY = gql`
   query UserQuery {
@@ -51,24 +52,27 @@ class Profile extends Component {
         const auth_token = localStorage.getItem(AUTH_TOKEN)
         let global_user = ""
         return(
-            <Fragment> 
+            <Fragment>
+            <div className = " float-right ">
+              <Link to="/upload" className = "btn btn-link"> Update profile picture </Link>
+              </div> 
+              <img src="..." class="rounded float-right" alt="..."></img>
                 <Query query = { USER_QUERY }  >
-                    {( {loading, error, data  }) => {
+                    {( {loading, error, data}) => {
                         if(loading) return <div>Getting data...</div>
                         if(error) return <div> Error</div>
                         global_user = data.user.name 
+                        
                         return(
                             <Fragment>
                                 <div className = "flex mt2 items-start">
-                                    <div className = "flex items-center">
-                                        { auth_token && ( <div>
-                                            { 'Welcome!! ' + global_user}
-                                            <br />                                    
-                                            {' Email - ' + data.user.email}
-                                            </div>)}
-                                    </div>
+                                 {auth_token && ( 
+                                    <div>
+                                        Welcome!!  {global_user} <br />                                    
+                                        Email - {data.user.email}
+                                    </div>)
+                                    }
                                 </div>
-
                             </Fragment>
                         )
                     }}
@@ -81,7 +85,7 @@ class Profile extends Component {
                         return(
                             <div>
                                 <br />  
-                                <p >Posts by {global_user}</p> 
+                                <h5 >Posts by {global_user}</h5> 
                                 <hr />
                                 {data.linksByUser.map( (link ,index ) => (
                                     <div className = "flex mt2 items-start">
@@ -105,7 +109,7 @@ class Profile extends Component {
                         return(
                             <div>
                                 <br /> 
-                                <p >Upvotes by {global_user}</p>
+                                <h5 >Upvotes by {global_user}</h5>
                                 <hr /> 
                                 {data.upvotedLinksByUser.map( (vote ,index ) => (
                                     <div className = "flex mt2 items-start">
@@ -129,7 +133,7 @@ class Profile extends Component {
                         return(
                             <div>
                                 <br /> 
-                                <p >Comments by {global_user}</p>
+                                <h5 >Comments by {global_user}</h5>
                                 <hr /> 
                                 {data.commentsByUser.map( (comment ,index ) => (
                                     <div>

@@ -43,7 +43,7 @@ class Upload extends React.Component {
     //     publicId: response.data.public_id,
     //   },
     // });
-
+    this.props.history.push(`/profile`);
     // this.props.history.push(`/champion/${graphqlResponse.data.createChampion.id}`);
   };
 
@@ -80,14 +80,14 @@ class Upload extends React.Component {
   }
 }
 
-// const CreateChampionMutation = gql`
+// const CreateProfileMutation = gql`
 //   mutation($name: String!, $publicId: String!) {
-//     createChampion(name: $name, publicId: $publicId) {
+//     createProfile(name: $name, publicId: $publicId) {
 //       id
 //     }
 //   }
 // `;
 
-// export default graphql(CreateChampionMutation)(Upload);
+// export default graphql(CreateProfileMutation)(Upload);
 
 export default Upload
