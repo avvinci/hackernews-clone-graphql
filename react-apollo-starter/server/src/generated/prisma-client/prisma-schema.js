@@ -668,6 +668,7 @@ type User {
   links(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Link!]
   votes(where: VoteWhereInput, orderBy: VoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Vote!]
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
+  picId: String
 }
 
 type UserConnection {
@@ -684,6 +685,7 @@ input UserCreateInput {
   links: LinkCreateManyWithoutPostedByInput
   votes: VoteCreateManyWithoutUserInput
   comments: CommentCreateManyWithoutPostedByInput
+  picId: String
 }
 
 input UserCreateOneWithoutCommentsInput {
@@ -708,6 +710,7 @@ input UserCreateWithoutCommentsInput {
   password: String!
   links: LinkCreateManyWithoutPostedByInput
   votes: VoteCreateManyWithoutUserInput
+  picId: String
 }
 
 input UserCreateWithoutLinksInput {
@@ -717,6 +720,7 @@ input UserCreateWithoutLinksInput {
   password: String!
   votes: VoteCreateManyWithoutUserInput
   comments: CommentCreateManyWithoutPostedByInput
+  picId: String
 }
 
 input UserCreateWithoutVotesInput {
@@ -726,6 +730,7 @@ input UserCreateWithoutVotesInput {
   password: String!
   links: LinkCreateManyWithoutPostedByInput
   comments: CommentCreateManyWithoutPostedByInput
+  picId: String
 }
 
 type UserEdge {
@@ -742,6 +747,8 @@ enum UserOrderByInput {
   email_DESC
   password_ASC
   password_DESC
+  picId_ASC
+  picId_DESC
 }
 
 type UserPreviousValues {
@@ -749,6 +756,7 @@ type UserPreviousValues {
   name: String!
   email: String!
   password: String!
+  picId: String
 }
 
 type UserSubscriptionPayload {
@@ -776,12 +784,14 @@ input UserUpdateInput {
   links: LinkUpdateManyWithoutPostedByInput
   votes: VoteUpdateManyWithoutUserInput
   comments: CommentUpdateManyWithoutPostedByInput
+  picId: String
 }
 
 input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
+  picId: String
 }
 
 input UserUpdateOneRequiredWithoutVotesInput {
@@ -815,6 +825,7 @@ input UserUpdateWithoutCommentsDataInput {
   password: String
   links: LinkUpdateManyWithoutPostedByInput
   votes: VoteUpdateManyWithoutUserInput
+  picId: String
 }
 
 input UserUpdateWithoutLinksDataInput {
@@ -823,6 +834,7 @@ input UserUpdateWithoutLinksDataInput {
   password: String
   votes: VoteUpdateManyWithoutUserInput
   comments: CommentUpdateManyWithoutPostedByInput
+  picId: String
 }
 
 input UserUpdateWithoutVotesDataInput {
@@ -831,6 +843,7 @@ input UserUpdateWithoutVotesDataInput {
   password: String
   links: LinkUpdateManyWithoutPostedByInput
   comments: CommentUpdateManyWithoutPostedByInput
+  picId: String
 }
 
 input UserUpsertWithoutCommentsInput {
@@ -914,6 +927,20 @@ input UserWhereInput {
   comments_every: CommentWhereInput
   comments_some: CommentWhereInput
   comments_none: CommentWhereInput
+  picId: String
+  picId_not: String
+  picId_in: [String!]
+  picId_not_in: [String!]
+  picId_lt: String
+  picId_lte: String
+  picId_gt: String
+  picId_gte: String
+  picId_contains: String
+  picId_not_contains: String
+  picId_starts_with: String
+  picId_not_starts_with: String
+  picId_ends_with: String
+  picId_not_ends_with: String
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

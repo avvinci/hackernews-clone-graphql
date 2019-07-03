@@ -242,7 +242,9 @@ export type UserOrderByInput =
   | "email_ASC"
   | "email_DESC"
   | "password_ASC"
-  | "password_DESC";
+  | "password_DESC"
+  | "picId_ASC"
+  | "picId_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -330,6 +332,20 @@ export interface UserWhereInput {
   comments_every?: Maybe<CommentWhereInput>;
   comments_some?: Maybe<CommentWhereInput>;
   comments_none?: Maybe<CommentWhereInput>;
+  picId?: Maybe<String>;
+  picId_not?: Maybe<String>;
+  picId_in?: Maybe<String[] | String>;
+  picId_not_in?: Maybe<String[] | String>;
+  picId_lt?: Maybe<String>;
+  picId_lte?: Maybe<String>;
+  picId_gt?: Maybe<String>;
+  picId_gte?: Maybe<String>;
+  picId_contains?: Maybe<String>;
+  picId_not_contains?: Maybe<String>;
+  picId_starts_with?: Maybe<String>;
+  picId_not_starts_with?: Maybe<String>;
+  picId_ends_with?: Maybe<String>;
+  picId_not_ends_with?: Maybe<String>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
@@ -341,6 +357,7 @@ export interface UserUpdateWithoutVotesDataInput {
   password?: Maybe<String>;
   links?: Maybe<LinkUpdateManyWithoutPostedByInput>;
   comments?: Maybe<CommentUpdateManyWithoutPostedByInput>;
+  picId?: Maybe<String>;
 }
 
 export interface CommentWhereInput {
@@ -492,6 +509,7 @@ export interface UserUpdateInput {
   links?: Maybe<LinkUpdateManyWithoutPostedByInput>;
   votes?: Maybe<VoteUpdateManyWithoutUserInput>;
   comments?: Maybe<CommentUpdateManyWithoutPostedByInput>;
+  picId?: Maybe<String>;
 }
 
 export interface UserUpdateWithoutCommentsDataInput {
@@ -500,6 +518,7 @@ export interface UserUpdateWithoutCommentsDataInput {
   password?: Maybe<String>;
   links?: Maybe<LinkUpdateManyWithoutPostedByInput>;
   votes?: Maybe<VoteUpdateManyWithoutUserInput>;
+  picId?: Maybe<String>;
 }
 
 export interface UserCreateInput {
@@ -510,6 +529,7 @@ export interface UserCreateInput {
   links?: Maybe<LinkCreateManyWithoutPostedByInput>;
   votes?: Maybe<VoteCreateManyWithoutUserInput>;
   comments?: Maybe<CommentCreateManyWithoutPostedByInput>;
+  picId?: Maybe<String>;
 }
 
 export interface LinkUpdateManyWithoutPostedByInput {
@@ -839,6 +859,7 @@ export interface UserUpdateWithoutLinksDataInput {
   password?: Maybe<String>;
   votes?: Maybe<VoteUpdateManyWithoutUserInput>;
   comments?: Maybe<CommentUpdateManyWithoutPostedByInput>;
+  picId?: Maybe<String>;
 }
 
 export interface VoteUpdateInput {
@@ -913,6 +934,7 @@ export interface UserCreateWithoutCommentsInput {
   password: String;
   links?: Maybe<LinkCreateManyWithoutPostedByInput>;
   votes?: Maybe<VoteCreateManyWithoutUserInput>;
+  picId?: Maybe<String>;
 }
 
 export interface CommentUpdateManyWithoutLinkInput {
@@ -966,6 +988,7 @@ export interface UserCreateWithoutLinksInput {
   password: String;
   votes?: Maybe<VoteCreateManyWithoutUserInput>;
   comments?: Maybe<CommentCreateManyWithoutPostedByInput>;
+  picId?: Maybe<String>;
 }
 
 export interface CommentUpsertWithWhereUniqueWithoutLinkInput {
@@ -1115,6 +1138,7 @@ export interface UserCreateWithoutVotesInput {
   password: String;
   links?: Maybe<LinkCreateManyWithoutPostedByInput>;
   comments?: Maybe<CommentCreateManyWithoutPostedByInput>;
+  picId?: Maybe<String>;
 }
 
 export interface CommentCreateInput {
@@ -1132,6 +1156,7 @@ export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
+  picId?: Maybe<String>;
 }
 
 export interface NodeNode {
@@ -1307,6 +1332,7 @@ export interface UserPreviousValues {
   name: String;
   email: String;
   password: String;
+  picId?: String;
 }
 
 export interface UserPreviousValuesPromise
@@ -1316,6 +1342,7 @@ export interface UserPreviousValuesPromise
   name: () => Promise<String>;
   email: () => Promise<String>;
   password: () => Promise<String>;
+  picId: () => Promise<String>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -1325,6 +1352,7 @@ export interface UserPreviousValuesSubscription
   name: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
+  picId: () => Promise<AsyncIterator<String>>;
 }
 
 export interface AggregateVote {
@@ -1735,6 +1763,7 @@ export interface User {
   name: String;
   email: String;
   password: String;
+  picId?: String;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -1769,6 +1798,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  picId: () => Promise<String>;
 }
 
 export interface UserSubscription
@@ -1805,6 +1835,7 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  picId: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserNullablePromise
@@ -1841,6 +1872,7 @@ export interface UserNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  picId: () => Promise<String>;
 }
 
 /*

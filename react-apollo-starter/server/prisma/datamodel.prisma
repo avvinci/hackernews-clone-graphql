@@ -25,6 +25,7 @@ type User {
   links: [Link!]!
   votes: [Vote!]!
   comments: [Comment!]!
+  picId: String
 }
 
 type Vote {
