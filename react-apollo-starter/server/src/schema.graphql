@@ -32,6 +32,7 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload
   vote(linkId: ID!): Vote!
   comment(text: String!, linkId : ID!  ): Comment!
+  updateUser(picId: String!): User
 }
 
 type Comment { 
@@ -57,6 +58,7 @@ type User {
   email: String!
   links: [Link!]!
   comments: [Comment!]!
+  picId: String
 }
 
 type Link {
