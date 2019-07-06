@@ -32,7 +32,7 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload
   vote(linkId: ID!): Vote!
   comment(text: String!, linkId : ID!  ): Comment!
-  updateUser(picId: String!): User
+  picture(publicId: String!): Picture
 }
 
 type Comment { 
@@ -52,14 +52,22 @@ type AuthPayload {
   user: User
 }
 
+type Picture {
+  id: ID!
+  publicId: String!
+  user: User!
+}
+
 type User {
   id: ID!
   name: String!
   email: String!
   links: [Link!]!
   comments: [Comment!]!
-  picId: String
+  profilePic: Picture!
 }
+
+
 
 type Link {
   id: ID!

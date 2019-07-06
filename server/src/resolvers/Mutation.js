@@ -11,11 +11,11 @@ function post(parent, args, context) {
   })
 }
 
-function updateUser(parent, args, context) {
+function picture(parent, args, context) {
   const userId = getUserId(context)
-  return context.prisma.updateUser({
-    userId: userId,
-    picId: args.picId,
+  return context.prisma.createPicture({
+    user: { connect: { id: userId } },
+    publicId: args.publicId,
   })
 }
 
@@ -80,5 +80,5 @@ module.exports = {
   login,
   vote,
   comment,
-  updateUser,
+  picture,
 }
