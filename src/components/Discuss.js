@@ -20,15 +20,11 @@ const COMMENTS_ON_LINK = gql`
   query CommentsonLink($linkId: ID! ){
     commentsOnLink(linkId : $linkId ) {
       text
-    }
-  }
-`
-const COMMENTS = gql`
-  query Comments{
-    comments{
-      text
       postedBy{
         name
+      }
+      link{
+        description
       }
     }
   }
@@ -55,33 +51,12 @@ class Discuss extends Component {
 
     render(){ 
       const {text, linkId ,linkName } =  this.state 
-      console.log(linkId)
+      // console.log(linkId)
       console.log(linkName)
 
 
       return(
         <Fragment> 
-
-          <Query query = { COMMENTS }>
-            {( {loading, error, data  }) => {
-              if(loading) return <div>Fetching</div>
-              if(error) return <div>   {`Error!:   ${error}`} </div>
-              // const pageIndex = this.props.match.params.id 
-
-              return(
-                <Fragment>
-                     <div className = "font-weight-bold"> Comments :  </div>  <br />
-                    {data.comments.map(comment => (
-                      <div> {comment.text} - {comment.postedBy.name} </div>
-                    ))}
-                    Discussion on Post : {this.state.linkId}  {' '} 
-                    <br />
-
-                </Fragment>
-              )
-            }}
-          </Query>
-
 
           <Query query = { COMMENTS_ON_LINK }    variables = {{linkId : this.state.linkId }} >
             {( {loading, error, data  }) => {
@@ -91,13 +66,14 @@ class Discuss extends Component {
 
               return(
                 <Fragment>
+                     Discussion on Post : {this.state.linkName}  {' '} 
+                     <hr />
+                   
                     Comments : <br /> 
                     {data.commentsOnLink.map(comment => (
-                      <div> {comment.text}  </div>
+                      <div> {comment.text} - {comment.postedBy.name} </div>
                     ))}
-                    Discussion on Post : {this.state.linkId}  {' '} 
-                    <br />
-                   
+                    <hr />
                 </Fragment>
               )
             }}
@@ -107,11 +83,10 @@ class Discuss extends Component {
                       <form class="p-2 bd-highlight">
                           <div>
                               <label for="comment" class="f6 b db mb2">
-                                Add Comments </label>
-                              <textarea id="comment" name="comment" 
+                                Add Comment  </label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
                                onChange = { e => this.setState({text: e.target.value})}
-                              class=" w-100" 
-                              aria-describedby="comment-desc"></textarea>
+                              ></textarea>
                           </div>
                       </form>
                     <Mutation

@@ -22,7 +22,6 @@
 5. Improve profile page
 6. Improve comments by user
 7. store images in backend (profile pic)
-8. Fix comment post issue
 9999. Everything!
 
 
