@@ -56,7 +56,7 @@ class Profile extends Component {
             <div className = " float-right ">
               <Link to="/upload" className = "btn btn-link"> Update profile picture </Link>
               </div> 
-              <img src="..." class="rounded float-right" alt="..."></img>
+              <img src="../../Capture.PNG" class="rounded float-right" alt="..."></img>
                 <Query query = { USER_QUERY }  >
                     {( {loading, error, data}) => {
                         if(loading) return <div>Getting data...</div>
