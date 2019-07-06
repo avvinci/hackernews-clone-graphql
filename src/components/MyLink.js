@@ -62,8 +62,16 @@ class MyLink extends Component {
                             pathname:  discussLink ,
                             state : {
                                 linkId: this.props.link.id,
+                                linkName: this.props.link.description,
                             }
                             }} className = "ml1 no-underline gray" > discuss </Link>
+
+                                <Link to={{ 
+                                pathname: `/nd/${this.props.link.id}`, 
+                                query: {
+                                    link: (this.props.link.id)
+                                } 
+                                }}>  New discuss</Link>
                     </div>
                     
                 </div>

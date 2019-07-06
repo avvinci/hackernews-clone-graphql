@@ -8,6 +8,7 @@ import Discuss from './Discuss'
 import {Switch , Route, Redirect} from 'react-router-dom'
 import Search from './Search';
 import Upload from './Upload';
+import NewDiscuss from './NewDiscuss'
 
 class App extends Component {
   render(){
@@ -23,6 +24,7 @@ class App extends Component {
               <Route exact path= "/top" component = {LinkList} /> 
               <Route exact path= "/new/:page" component = {LinkList} /> 
               <Route exact path= "/discuss/:id" component = {Discuss} /> 
+              <Route exact path= "/nd/:id" component = {NewDiscuss} /> 
               <Route exact path= "/login" component = {Login} /> 
               <Route exact path = "/search" component = {Search} />
               <Route exact path = "/profile" component = {Profile} />

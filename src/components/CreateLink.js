@@ -52,7 +52,8 @@ class CreateLink extends Component{
                             const first = LINKS_PER_PAGE
                             const skip = 0 
                             const orderBy = 'createdAt_DESC'
-                            const data = store.readQuery({query: FEED_QUERY ,  variables : {first, skip, orderBy}})
+                            const data = store.readQuery({
+                                query: FEED_QUERY ,  variables : {first, skip, orderBy}})
                             data.feed.links.unshift(post) 
                             store.writeQuery({
                                 query: FEED_QUERY,
