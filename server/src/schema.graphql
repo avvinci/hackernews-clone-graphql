@@ -33,6 +33,7 @@ type Mutation {
   vote(linkId: ID!): Vote!
   comment(text: String!, linkId : ID!  ): Comment!
   picture(publicId: String!): Picture
+  updatePicture(id: ID! , publicId: String! ): Picture
 }
 
 type Comment { 

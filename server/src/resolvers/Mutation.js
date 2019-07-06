@@ -19,6 +19,15 @@ function picture(parent, args, context) {
   })
 }
 
+function updatePicture(parent, args, context) {
+  return context.prisma.updatePicture({
+    where: { id }, 
+    data : {
+      publicId: args.publicId,
+    }
+  })
+}
+
 function comment(parent, args, context){
   const userId = getUserId(context)
   return context.prisma.createComment({
@@ -81,4 +90,5 @@ module.exports = {
   vote,
   comment,
   picture,
+  updatePicture,
 }
