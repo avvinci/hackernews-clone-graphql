@@ -16,6 +16,12 @@ type Comment{
   link: Link
 }
 
+type Picture{
+  id: ID! @id
+  publicId: String!
+  user: User!  
+}
+
 
 type User {
   id: ID! @id
@@ -25,8 +31,9 @@ type User {
   links: [Link!]!
   votes: [Vote!]!
   comments: [Comment!]!
-  picId: String
+  profilePic: Picture  @relation(link: INLINE)
 }
+
 
 type Vote {
   id: ID! @id

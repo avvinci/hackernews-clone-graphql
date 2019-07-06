@@ -11,6 +11,10 @@ type AggregateLink {
   count: Int!
 }
 
+type AggregatePicture {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -607,6 +611,12 @@ type Mutation {
   upsertLink(where: LinkWhereUniqueInput!, create: LinkCreateInput!, update: LinkUpdateInput!): Link!
   deleteLink(where: LinkWhereUniqueInput!): Link
   deleteManyLinks(where: LinkWhereInput): BatchPayload!
+  createPicture(data: PictureCreateInput!): Picture!
+  updatePicture(data: PictureUpdateInput!, where: PictureWhereUniqueInput!): Picture
+  updateManyPictures(data: PictureUpdateManyMutationInput!, where: PictureWhereInput): BatchPayload!
+  upsertPicture(where: PictureWhereUniqueInput!, create: PictureCreateInput!, update: PictureUpdateInput!): Picture!
+  deletePicture(where: PictureWhereUniqueInput!): Picture
+  deleteManyPictures(where: PictureWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -637,6 +647,135 @@ type PageInfo {
   endCursor: String
 }
 
+type Picture {
+  id: ID!
+  publicId: String!
+  user: User!
+}
+
+type PictureConnection {
+  pageInfo: PageInfo!
+  edges: [PictureEdge]!
+  aggregate: AggregatePicture!
+}
+
+input PictureCreateInput {
+  id: ID
+  publicId: String!
+  user: UserCreateOneWithoutProfilePicInput!
+}
+
+input PictureCreateOneWithoutUserInput {
+  create: PictureCreateWithoutUserInput
+  connect: PictureWhereUniqueInput
+}
+
+input PictureCreateWithoutUserInput {
+  id: ID
+  publicId: String!
+}
+
+type PictureEdge {
+  node: Picture!
+  cursor: String!
+}
+
+enum PictureOrderByInput {
+  id_ASC
+  id_DESC
+  publicId_ASC
+  publicId_DESC
+}
+
+type PicturePreviousValues {
+  id: ID!
+  publicId: String!
+}
+
+type PictureSubscriptionPayload {
+  mutation: MutationType!
+  node: Picture
+  updatedFields: [String!]
+  previousValues: PicturePreviousValues
+}
+
+input PictureSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PictureWhereInput
+  AND: [PictureSubscriptionWhereInput!]
+  OR: [PictureSubscriptionWhereInput!]
+  NOT: [PictureSubscriptionWhereInput!]
+}
+
+input PictureUpdateInput {
+  publicId: String
+  user: UserUpdateOneRequiredWithoutProfilePicInput
+}
+
+input PictureUpdateManyMutationInput {
+  publicId: String
+}
+
+input PictureUpdateOneWithoutUserInput {
+  create: PictureCreateWithoutUserInput
+  update: PictureUpdateWithoutUserDataInput
+  upsert: PictureUpsertWithoutUserInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: PictureWhereUniqueInput
+}
+
+input PictureUpdateWithoutUserDataInput {
+  publicId: String
+}
+
+input PictureUpsertWithoutUserInput {
+  update: PictureUpdateWithoutUserDataInput!
+  create: PictureCreateWithoutUserInput!
+}
+
+input PictureWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  publicId: String
+  publicId_not: String
+  publicId_in: [String!]
+  publicId_not_in: [String!]
+  publicId_lt: String
+  publicId_lte: String
+  publicId_gt: String
+  publicId_gte: String
+  publicId_contains: String
+  publicId_not_contains: String
+  publicId_starts_with: String
+  publicId_not_starts_with: String
+  publicId_ends_with: String
+  publicId_not_ends_with: String
+  user: UserWhereInput
+  AND: [PictureWhereInput!]
+  OR: [PictureWhereInput!]
+  NOT: [PictureWhereInput!]
+}
+
+input PictureWhereUniqueInput {
+  id: ID
+}
+
 type Query {
   comment(where: CommentWhereUniqueInput!): Comment
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment]!
@@ -644,6 +783,9 @@ type Query {
   link(where: LinkWhereUniqueInput!): Link
   links(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Link]!
   linksConnection(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LinkConnection!
+  picture(where: PictureWhereUniqueInput!): Picture
+  pictures(where: PictureWhereInput, orderBy: PictureOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Picture]!
+  picturesConnection(where: PictureWhereInput, orderBy: PictureOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PictureConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -656,6 +798,7 @@ type Query {
 type Subscription {
   comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
   link(where: LinkSubscriptionWhereInput): LinkSubscriptionPayload
+  picture(where: PictureSubscriptionWhereInput): PictureSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   vote(where: VoteSubscriptionWhereInput): VoteSubscriptionPayload
 }
@@ -668,7 +811,7 @@ type User {
   links(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Link!]
   votes(where: VoteWhereInput, orderBy: VoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Vote!]
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
-  picId: String
+  profilePic: Picture
 }
 
 type UserConnection {
@@ -685,7 +828,7 @@ input UserCreateInput {
   links: LinkCreateManyWithoutPostedByInput
   votes: VoteCreateManyWithoutUserInput
   comments: CommentCreateManyWithoutPostedByInput
-  picId: String
+  profilePic: PictureCreateOneWithoutUserInput
 }
 
 input UserCreateOneWithoutCommentsInput {
@@ -695,6 +838,11 @@ input UserCreateOneWithoutCommentsInput {
 
 input UserCreateOneWithoutLinksInput {
   create: UserCreateWithoutLinksInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutProfilePicInput {
+  create: UserCreateWithoutProfilePicInput
   connect: UserWhereUniqueInput
 }
 
@@ -710,7 +858,7 @@ input UserCreateWithoutCommentsInput {
   password: String!
   links: LinkCreateManyWithoutPostedByInput
   votes: VoteCreateManyWithoutUserInput
-  picId: String
+  profilePic: PictureCreateOneWithoutUserInput
 }
 
 input UserCreateWithoutLinksInput {
@@ -720,7 +868,17 @@ input UserCreateWithoutLinksInput {
   password: String!
   votes: VoteCreateManyWithoutUserInput
   comments: CommentCreateManyWithoutPostedByInput
-  picId: String
+  profilePic: PictureCreateOneWithoutUserInput
+}
+
+input UserCreateWithoutProfilePicInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  links: LinkCreateManyWithoutPostedByInput
+  votes: VoteCreateManyWithoutUserInput
+  comments: CommentCreateManyWithoutPostedByInput
 }
 
 input UserCreateWithoutVotesInput {
@@ -730,7 +888,7 @@ input UserCreateWithoutVotesInput {
   password: String!
   links: LinkCreateManyWithoutPostedByInput
   comments: CommentCreateManyWithoutPostedByInput
-  picId: String
+  profilePic: PictureCreateOneWithoutUserInput
 }
 
 type UserEdge {
@@ -747,8 +905,6 @@ enum UserOrderByInput {
   email_DESC
   password_ASC
   password_DESC
-  picId_ASC
-  picId_DESC
 }
 
 type UserPreviousValues {
@@ -756,7 +912,6 @@ type UserPreviousValues {
   name: String!
   email: String!
   password: String!
-  picId: String
 }
 
 type UserSubscriptionPayload {
@@ -784,14 +939,20 @@ input UserUpdateInput {
   links: LinkUpdateManyWithoutPostedByInput
   votes: VoteUpdateManyWithoutUserInput
   comments: CommentUpdateManyWithoutPostedByInput
-  picId: String
+  profilePic: PictureUpdateOneWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
-  picId: String
+}
+
+input UserUpdateOneRequiredWithoutProfilePicInput {
+  create: UserCreateWithoutProfilePicInput
+  update: UserUpdateWithoutProfilePicDataInput
+  upsert: UserUpsertWithoutProfilePicInput
+  connect: UserWhereUniqueInput
 }
 
 input UserUpdateOneRequiredWithoutVotesInput {
@@ -825,7 +986,7 @@ input UserUpdateWithoutCommentsDataInput {
   password: String
   links: LinkUpdateManyWithoutPostedByInput
   votes: VoteUpdateManyWithoutUserInput
-  picId: String
+  profilePic: PictureUpdateOneWithoutUserInput
 }
 
 input UserUpdateWithoutLinksDataInput {
@@ -834,7 +995,16 @@ input UserUpdateWithoutLinksDataInput {
   password: String
   votes: VoteUpdateManyWithoutUserInput
   comments: CommentUpdateManyWithoutPostedByInput
-  picId: String
+  profilePic: PictureUpdateOneWithoutUserInput
+}
+
+input UserUpdateWithoutProfilePicDataInput {
+  name: String
+  email: String
+  password: String
+  links: LinkUpdateManyWithoutPostedByInput
+  votes: VoteUpdateManyWithoutUserInput
+  comments: CommentUpdateManyWithoutPostedByInput
 }
 
 input UserUpdateWithoutVotesDataInput {
@@ -843,7 +1013,7 @@ input UserUpdateWithoutVotesDataInput {
   password: String
   links: LinkUpdateManyWithoutPostedByInput
   comments: CommentUpdateManyWithoutPostedByInput
-  picId: String
+  profilePic: PictureUpdateOneWithoutUserInput
 }
 
 input UserUpsertWithoutCommentsInput {
@@ -854,6 +1024,11 @@ input UserUpsertWithoutCommentsInput {
 input UserUpsertWithoutLinksInput {
   update: UserUpdateWithoutLinksDataInput!
   create: UserCreateWithoutLinksInput!
+}
+
+input UserUpsertWithoutProfilePicInput {
+  update: UserUpdateWithoutProfilePicDataInput!
+  create: UserCreateWithoutProfilePicInput!
 }
 
 input UserUpsertWithoutVotesInput {
@@ -927,20 +1102,7 @@ input UserWhereInput {
   comments_every: CommentWhereInput
   comments_some: CommentWhereInput
   comments_none: CommentWhereInput
-  picId: String
-  picId_not: String
-  picId_in: [String!]
-  picId_not_in: [String!]
-  picId_lt: String
-  picId_lte: String
-  picId_gt: String
-  picId_gte: String
-  picId_contains: String
-  picId_not_contains: String
-  picId_starts_with: String
-  picId_not_starts_with: String
-  picId_ends_with: String
-  picId_not_ends_with: String
+  profilePic: PictureWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
