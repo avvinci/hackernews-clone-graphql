@@ -1,11 +1,11 @@
-import React, { Component , Fragment } from "react"
+import React, { Component, Fragment } from "react"
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo';
 
 const  COMMENT_MUTATION = gql`
-mutation CommentMutation($text: String!, $linkId: String!) {
-    comment(text :$text , linkId: $linkId){
+mutation CommentMutation($text: String!, $linkId: ID!) {
+    comment(text :$text, linkId: $linkId){
       postedBy{
           name
       }
@@ -17,7 +17,7 @@ mutation CommentMutation($text: String!, $linkId: String!) {
 `
 
 const COMMENTS_ON_LINK = gql`
-  query CommentsonLink($linkId: String! ){
+  query CommentsonLink($linkId: ID! ){
     commentsOnLink(linkId : $linkId ) {
       text
     }
@@ -37,23 +37,27 @@ const COMMENTS = gql`
 class Discuss extends Component {
   state = {
     linkId: '',
+    linkName: '',
     text : '',
   }
 
   componentDidMount(){
-      const { linkId }  = this.props.location.state 
+      const { linkId , linkName }  = this.props.location.state 
       this.setState({linkId : linkId })
+      this.setState({linkName: linkName})
 
     }
 
     _getQueryVariables = () => {
       const linkId = this.state.linkId
-      return {linkId}
-
+      return { linkId }
   }
+
     render(){ 
-      const {text, linkId } =  this.state 
+      const {text, linkId ,linkName } =  this.state 
       console.log(linkId)
+      console.log(linkName)
+
 
       return(
         <Fragment> 
@@ -66,20 +70,20 @@ class Discuss extends Component {
 
               return(
                 <Fragment>
-                    Comments : <br />
+                     <div className = "font-weight-bold"> Comments :  </div>  <br />
                     {data.comments.map(comment => (
                       <div> {comment.text} - {comment.postedBy.name} </div>
                     ))}
                     Discussion on Post : {this.state.linkId}  {' '} 
                     <br />
-                   
+
                 </Fragment>
               )
             }}
           </Query>
 
 
-          <Query query = { COMMENTS_ON_LINK } variables = {this._getQueryVariables() } >
+          <Query query = { COMMENTS_ON_LINK }    variables = {{linkId : this.state.linkId }} >
             {( {loading, error, data  }) => {
               if(loading) return <div>Fetching</div>
               if(error) return <div>   {`Error!:   ${error}`} </div>
@@ -89,7 +93,7 @@ class Discuss extends Component {
                 <Fragment>
                     Comments : <br /> 
                     {data.commentsOnLink.map(comment => (
-                      <div> {comment.text} - {comment.postedBy.name} </div>
+                      <div> {comment.text}  </div>
                     ))}
                     Discussion on Post : {this.state.linkId}  {' '} 
                     <br />
@@ -99,13 +103,15 @@ class Discuss extends Component {
             }}
           </Query>
           
-          <div className="flex mt3">
-                      <form class="pa4 black-80">
+          <div className="d-flex flex-column  bd-highlight mb-3">
+                      <form class="p-2 bd-highlight">
                           <div>
-                              <label for="comment" class="f6 b db mb2">Add Comments <span class="normal black-60">(optional)</span></label>
+                              <label for="comment" class="f6 b db mb2">
+                                Add Comments </label>
                               <textarea id="comment" name="comment" 
                                onChange = { e => this.setState({text: e.target.value})}
-                              class="db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2" aria-describedby="comment-desc"></textarea>
+                              class=" w-100" 
+                              aria-describedby="comment-desc"></textarea>
                           </div>
                       </form>
                     <Mutation
@@ -113,7 +119,8 @@ class Discuss extends Component {
                         variables = { {text, linkId }}
                       >
                                         
-                    { mutation =>  < button  className="pointer mr2 button" onClick = {mutation} >Submit</button> }
+                    { mutation =>  < button  className="p-2 bd-highlight btn btn-dark" 
+                      onClick = {mutation} >Submit</button> }
 
                     </Mutation>
 
